@@ -131,12 +131,10 @@ Thank you for your prompt payment!
             print("SMS service not initialized or phone number missing")
             return
 
-        # Debug logging
         print("\nSMS Delivery Details:")
         print("-" * 50)
         print(f"Phone Number: {self.phone_number}")
         print(f"Username: {self.at_username}")
-        print(f"Environment: {'sandbox' if 'sandbox' in self.at_username.lower() else 'production'}")
 
         message = (
             f"Dear {self.tenant_name}, your {datetime.datetime.now().strftime('%B %Y')} "
@@ -147,21 +145,25 @@ Thank you for your prompt payment!
         )
 
         try:
-            print("\nAttempting to send SMS...")
-            response = self.sms.send(message, [self.phone_number])
-            print("\nAPI Response:")
-            print("-" * 50)
-            print(f"Response Data: {response}")
+            response = self.sms.send(message=message, recipients=[self.phone_number])
             
-            if response and hasattr(response, 'SMSMessageData'):
-                print(f"Message Count: {response['SMSMessageData']['MessageCount']}")
-                print(f"Recipients: {response['SMSMessageData']['Recipients']}")
+            if 'SMSMessageData' in response:
+                data = response['SMSMessageData']
+                recipients = data.get('Recipients', [])[0] if data.get('Recipients') else {}
+                
+                print("\nSMS Status:")
+                print("-" * 50)
+                print(f"Status: {recipients.get('status', 'Unknown')}")
+                print(f"Status Code: {recipients.get('statusCode', 'Unknown')}")
+                print(f"Message ID: {recipients.get('messageId', 'None')}")
+                print(f"Cost: {recipients.get('cost', '0')}")
+                
+                if recipients.get('status') == 'UserInBlacklist':
+                    print("\nError: Phone number is blacklisted")
+                    print("Please contact Africa's Talking support to whitelist the number")
                 
         except Exception as e:
-            print(f"\nError Details:")
-            print("-" * 50)
-            print(f"Error Type: {type(e).__name__}")
-            print(f"Error Message: {str(e)}")
+            print(f"\nSMS Sending Error: {str(e)}")
 
 def main():
     bill = RentalBill()
