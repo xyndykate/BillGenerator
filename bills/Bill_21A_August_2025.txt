@@ -1,0 +1,25 @@
+
+=================================================
+                RENTAL BILL
+=================================================
+Date: 31 August 2025
+Billing Period: August 2025
+
+Tenant Name: Vivian
+Apartment Number: 21A
+
+BILL DETAILS:
+-------------------------------------------------
+Monthly Rent:             KES 90000.00
+Water Usage (1.0 m³):    KES 200.00
+-------------------------------------------------
+Total Amount Due:         KES 90200.00
+
+PAYMENT INSTRUCTIONS:
+-------------------------------------------------
+Please pay via M-Pesa:
+Paybill Number: 522533
+Account Number: 7944442#21A
+
+Thank you for your prompt payment!
+=================================================
